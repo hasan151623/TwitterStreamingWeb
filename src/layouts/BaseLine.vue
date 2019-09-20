@@ -2,14 +2,16 @@
     <v-app id="inspire">
         <v-navigation-drawer v-model="drawer" app>
             <v-list dense>
+                <v-list-item-group v-model="selectedItemIndex" color="primary">
                 <v-list-item @click>
                     <v-list-item-action>
                         <v-icon color="#26c6da" dark>mdi-twitter</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                        <v-list-item-title>Live Tweets</v-list-item-title>
+                        <v-list-item-title active-class="highlighted">Live Tweets</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
+                </v-list-item-group>
             </v-list>
         </v-navigation-drawer>
 
@@ -35,7 +37,8 @@
 <script>
 export default {
     data: () => ({
-        drawer: null
+        drawer: null,
+        selectedItemIndex: 0
     })
 };
 </script>
