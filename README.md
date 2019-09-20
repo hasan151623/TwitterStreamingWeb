@@ -1,5 +1,5 @@
 
-# Twitter Streaming
+# Twitter Live Streaming
 
 ## Project setup
 ```
