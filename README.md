@@ -1,5 +1,5 @@
 
-# twitterstreamingweb
+# Twitter Streaming
 
 ## Project setup
 ```
