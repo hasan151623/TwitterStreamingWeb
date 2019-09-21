@@ -86,23 +86,23 @@ export default {
                 this.streamTweets,
                 TWITTER_LIVE_STREAMING_API_TIME_INTERVAL
             );
-            console.log(
-                "starting request for streaming",
-                this.requestForStreaming
-            );
+            // console.log(
+            //     "starting request for streaming",
+            //     this.requestForStreaming
+            // );
             let parent = this;
 
             this.requestToListLiveTweets = setInterval(function() {
                 parent.getTweets(parent.tag);
             }, GET_RECENT_TWEETS_API_TIME_INTERVAL);
-            console.log(
-                "starting request for list live tweets",
-                this.requestToListLiveTweets
-            );
+            // console.log(
+            //     "starting request for list live tweets",
+            //     this.requestToListLiveTweets
+            // );
         },
         streamTweets() {
             let parent = this;
-            console.log("streaming from twitter");
+            // console.log("streaming from twitter");
             axios({
                 method: "post",
                 url: TWITTER_LIVE_STREAMING_API,
@@ -111,14 +111,14 @@ export default {
                 }
             })
                 .then(function(response) {
-                    console.log("resp", response.data);
+                    // console.log("resp", response.data);
                 })
                 .catch(function(error) {
                     console.log("error", error);
                 });
         },
         getTweets(tag = null) {
-            console.log("getting tweets from backend");
+            // console.log("getting tweets from backend");
             let parent = this;
             parent.loading = true;
 
@@ -140,14 +140,14 @@ export default {
             this.tag = "";
             clearInterval(this.requestForStreaming);
             clearInterval(this.requestToListLiveTweets);
-            console.log(
-                "starting request for streaming",
-                this.requestForStreaming
-            );
-            console.log(
-                "starting request for list live tweets",
-                this.requestToListLiveTweets
-            );
+            // console.log(
+            //     "starting request for streaming",
+            //     this.requestForStreaming
+            // );
+            // console.log(
+            //     "starting request for list live tweets",
+            //     this.requestToListLiveTweets
+            // );
         },
         goToTwitter(tweetID) {
             window.open(`https://twitter.com/user/status/${tweetID}`, "_blank");
