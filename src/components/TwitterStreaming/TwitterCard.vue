@@ -190,8 +190,6 @@ export default {
     }),
     methods: {
         getDateTime(timestamp) {
-            console.log("tiemstamp", timestamp)
-            // return new Date(timestamp);
             return moment(timestamp).format("MMMM Do YYYY, h:mm:ss a");
         }
     }
