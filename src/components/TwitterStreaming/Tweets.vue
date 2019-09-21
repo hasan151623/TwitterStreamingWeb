@@ -52,7 +52,7 @@ import VueElementLoading from "vue-element-loading";
 const TWITTER_LIVE_STREAMING_API =
     "https://hfgotho0xe.execute-api.us-west-2.amazonaws.com/dev/stream_tweets/";
 const GET_RECENT_TWEETS_API =
-    "https://hfgotho0xe.execute-api.us-west-2.amazonaws.com/dev/get_tweets";
+    "https://hfgotho0xe.execute-api.us-west-2.amazonaws.com/dev/get_live_tweets";
 const TWITTER_LIVE_STREAMING_API_TIME_INTERVAL = 21000;
 const GET_RECENT_TWEETS_API_TIME_INTERVAL = 20000;
 
@@ -80,7 +80,7 @@ export default {
                 return;
             }
             this.startStreaming = true;
-            this.getTweets(this.tag);
+            // this.getTweets(this.tag);
             this.streamTweets();
             this.requestForStreaming = setInterval(
                 this.streamTweets,
