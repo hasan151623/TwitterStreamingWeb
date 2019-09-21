@@ -6,22 +6,34 @@
             <v-toolbar>
                 <v-toolbar-title>Live Tweets</v-toolbar-title>
                 <div class="flex-grow-1"></div>
-            
-                    <v-text-field v-model="tag" placeholder="Enter tag i.e serverless, aws etc" required></v-text-field>
-            
+
+                <v-text-field
+                    v-model="tag"
+                    placeholder="Enter tag i.e serverless, aws etc"
+                    required
+                ></v-text-field>
+
                 <div class="flex-grow-1"></div>
 
                 <div>
-                    <vue-element-loading :active="startStreaming" spinner="bar-fade-scale" text="Streaming" duration="1.0" />
-                    <v-btn color="primary" @click="startLiveStreaming" :disabled="start || !tag">Start
-                </v-btn>
+                    <vue-element-loading
+                        :active="startStreaming"
+                        spinner="bar-fade-scale"
+                        text="Streaming"
+                        duration="1.0"
+                    />
+                    <v-btn
+                        color="primary"
+                        @click="startLiveStreaming"
+                        :disabled="start || !tag"
+                    >Start</v-btn>
                 </div>
                 <v-btn class="ma-2" color="error" :disabled="!start" @click="stopLiveStreaming">Stop</v-btn>
             </v-toolbar>
 
-            <v-list three-line>
+            <v-list>
                 <template v-for="(tweet, index) in tweets">
-                    <v-list-item :key="tweet.id" @click>
+                    <v-list-item :key="tweet.id" @click="goToTwitter(tweet.tweet_id_str)">
                         <v-list-item-content>
                             <twitter-card :tweet="tweet"></twitter-card>
                         </v-list-item-content>
@@ -41,6 +53,8 @@ const TWITTER_LIVE_STREAMING_API =
     "https://hfgotho0xe.execute-api.us-west-2.amazonaws.com/dev/stream_tweets/";
 const GET_RECENT_TWEETS_API =
     "https://hfgotho0xe.execute-api.us-west-2.amazonaws.com/dev/get_tweets";
+const TWITTER_LIVE_STREAMING_API_TIME_INTERVAL = 21000;
+const GET_RECENT_TWEETS_API_TIME_INTERVAL = 20000;
 
 export default {
     components: {
@@ -62,16 +76,28 @@ export default {
     }),
     methods: {
         startLiveStreaming() {
-            console.log("tag", this.tag, !this.tag);
             if (!this.tag) {
                 return;
             }
             this.startStreaming = true;
+            this.getTweets(this.tag);
             this.streamTweets();
-            this.requestForStreaming = setInterval(this.streamTweets, 25000);
+            this.requestForStreaming = setInterval(
+                this.streamTweets,
+                TWITTER_LIVE_STREAMING_API_TIME_INTERVAL
+            );
             console.log(
                 "starting request for streaming",
                 this.requestForStreaming
+            );
+            let parent = this;
+
+            this.requestToListLiveTweets = setInterval(function() {
+                parent.getTweets(parent.tag);
+            }, GET_RECENT_TWEETS_API_TIME_INTERVAL);
+            console.log(
+                "starting request for list live tweets",
+                this.requestToListLiveTweets
             );
         },
         streamTweets() {
@@ -91,13 +117,14 @@ export default {
                     console.log("error", error);
                 });
         },
-        getTweets() {
+        getTweets(tag = null) {
             console.log("getting tweets from backend");
             let parent = this;
             parent.loading = true;
+
             axios({
                 method: "get",
-                url: GET_RECENT_TWEETS_API
+                url: GET_RECENT_TWEETS_API + (tag ? "?tag=" + tag : "")
             })
                 .then(function(response) {
                     parent.loading = false;
@@ -121,15 +148,13 @@ export default {
                 "starting request for list live tweets",
                 this.requestToListLiveTweets
             );
+        },
+        goToTwitter(tweetID) {
+            window.open(`https://twitter.com/user/status/${tweetID}`, "_blank");
         }
     },
     created() {
         this.getTweets();
-        this.requestToListLiveTweets = setInterval(this.getTweets, 30000);
-        console.log(
-            "starting request for list live tweets",
-            this.requestToListLiveTweets
-        );
         // this.getTweets();
     },
     beforeDestroy() {

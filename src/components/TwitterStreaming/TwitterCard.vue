@@ -7,12 +7,12 @@
             <span class="title font-weight-light pa-2">{{tweet.user.name}}</span>
         </v-card-title>
 
-        <v-card-text>{{ tweet.text}}</v-card-text>
+        <v-card-text class="headline font-weight-bold">{{ tweet.text}}</v-card-text>
 
         <v-card-actions>
             <v-list-item class="grow">
                 <v-list-item-content>
-                    <v-list-item-title>{{tweet.created_at}}</v-list-item-title>
+                    <v-list-item-title>{{ getDateTime(tweet.timestamp_ms) }}</v-list-item-title>
                 </v-list-item-content>
 
                 <v-row align="center" justify="end">
@@ -179,6 +179,7 @@
 //     lang: "en",
 //     timestamp_ms: "1568955126255"
 // };
+import moment from "moment";
 
 export default {
     props: {
@@ -186,6 +187,13 @@ export default {
     },
     data: () => ({
         //
-    })
+    }),
+    methods: {
+        getDateTime(timestamp) {
+            console.log("tiemstamp", timestamp)
+            // return new Date(timestamp);
+            return moment(timestamp).format("MMMM Do YYYY, h:mm:ss a");
+        }
+    }
 };
 </script>
