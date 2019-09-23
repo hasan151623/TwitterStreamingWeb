@@ -190,7 +190,7 @@ export default {
     }),
     methods: {
         getDateTime(timestamp) {
-            return moment(timestamp).format("MMMM Do YYYY, h:mm:ss a");
+            return moment(timestamp).format("MMM Do YYYY, h:mm:ss a");
         }
     }
 };

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import BaseLine from "./layouts/BaseLine";
+import BaseLayout from "./layouts/BaseLayout";
 
 export default {
     name: "App",
@@ -17,7 +17,7 @@ export default {
     data: () => ({}),
     computed: {
         layout: function() {
-            return BaseLine;
+            return BaseLayout;
         }
     }
 };

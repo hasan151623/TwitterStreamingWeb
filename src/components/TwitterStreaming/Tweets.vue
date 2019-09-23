@@ -4,12 +4,12 @@
         <vue-element-loading :active="loading" spinner="bar-fade-scale" duration="1.0" />
         <v-card width="1024" class="mxauto">
             <v-toolbar>
-                <v-toolbar-title>Live Tweets</v-toolbar-title>
                 <div class="flex-grow-1"></div>
 
                 <v-text-field
                     v-model="tag"
                     placeholder="Enter tag i.e serverless, aws etc"
+                    clearable
                     required
                 ></v-text-field>
 
