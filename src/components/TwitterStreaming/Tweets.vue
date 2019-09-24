@@ -1,20 +1,15 @@
 <template>
     <div>
-        <!-- <vue-element-loading :active="loading" size="100" spinner="spinner" color="#FF6700" /> -->
-        <vue-element-loading :active="loading" spinner="bar-fade-scale" duration="1.0" />
-        <v-card width="1024" class="mxauto">
+        <v-card class="mxauto" flat>
             <v-toolbar>
                 <div class="flex-grow-1"></div>
-
                 <v-text-field
                     v-model="tag"
                     placeholder="Enter tag i.e serverless, aws etc"
                     clearable
                     required
                 ></v-text-field>
-
                 <div class="flex-grow-1"></div>
-
                 <div>
                     <vue-element-loading
                         :active="startStreaming"
@@ -22,16 +17,21 @@
                         text="Streaming"
                         duration="1.0"
                     />
-                    <v-btn
-                        color="primary"
-                        @click="startLiveStreaming"
-                        :disabled="start || !tag"
-                    >Start</v-btn>
+                    <v-btn color="primary" @click="startLiveStreaming" :disabled="start || !tag">
+                        Start
+                        <v-icon right>mdi-restart</v-icon>
+                    </v-btn>
                 </div>
-                <v-btn class="ma-2" color="error" :disabled="!start" @click="stopLiveStreaming">Stop</v-btn>
+                <v-btn class="ma-2" color="error" :disabled="!start" @click="stopLiveStreaming">
+                    Stop
+                    <v-icon right>mdi-stop</v-icon>
+                </v-btn>
             </v-toolbar>
+        </v-card>
 
-            <v-list>
+        <div class="mt-2">
+            <vue-element-loading :active="loading" spinner="spinner" duration="1.0" />
+            <v-list v-if="tweets.length">
                 <template v-for="(tweet, index) in tweets">
                     <v-list-item :key="tweet.id" @click="goToTwitter(tweet.tweet_id_str)">
                         <v-list-item-content>
@@ -40,6 +40,14 @@
                     </v-list-item>
                 </template>
             </v-list>
+        </div>
+
+        <v-card v-if="!tag" class="mt-2">
+            <div class="pa-2">
+                <p
+                    class="text-center"
+                >Enter text to search for relevant live tweets. Live tweets will be refreshed at 20 seconds interval</p>
+            </div>
         </v-card>
     </div>
 </template>
@@ -72,7 +80,7 @@ export default {
         requestToListLiveTweets: null,
         tweets: [],
         tag: "",
-        loading: true
+        loading: false
     }),
     methods: {
         startLiveStreaming() {
@@ -137,6 +145,7 @@ export default {
 
         stopLiveStreaming() {
             this.startStreaming = false;
+            this.loading = false;
             this.tag = "";
             clearInterval(this.requestForStreaming);
             clearInterval(this.requestToListLiveTweets);
@@ -152,10 +161,6 @@ export default {
         goToTwitter(tweetID) {
             window.open(`https://twitter.com/user/status/${tweetID}`, "_blank");
         }
-    },
-    created() {
-        this.getTweets();
-        // this.getTweets();
     },
     beforeDestroy() {
         this.stopLiveStreaming();

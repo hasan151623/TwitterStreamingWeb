@@ -1,5 +1,5 @@
 <template>
-    <v-card class="mx-auto">
+    <v-card class="mx-auto" max-width="500">
         <v-card-title>
             <v-avatar>
                 <img :src="tweet.user.profile_image_url" alt="John" />
