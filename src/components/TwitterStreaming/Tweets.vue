@@ -1,6 +1,41 @@
 <template>
     <div>
-        <v-card class="mxauto" flat>
+        <v-card class="mxauto">
+            <v-row justify="center">
+                <v-col cols="12" sm="12" md="4" lg="4" offset-md="4" offset-lg="4">
+                    <v-text-field
+                        v-model="tag"
+                        placeholder="Enter tag i.e serverless, aws etc"
+                        clearable
+                        required
+                    ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6" md="4" lg="4">
+                    <span>
+                        <vue-element-loading
+                            :active="startStreaming"
+                            spinner="bar-fade-scale"
+                            text="Streaming"
+                            duration="1.0"
+                        />
+                        <v-btn
+                            color="primary"
+                            @click="startLiveStreaming"
+                            :disabled="start || !tag"
+                        >
+                            Start
+                            <v-icon right>mdi-restart</v-icon>
+                        </v-btn>
+                    </span>
+                    <v-btn class="ma-2" color="error" :disabled="!start" @click="stopLiveStreaming">
+                        Stop
+                        <v-icon right>mdi-stop</v-icon>
+                    </v-btn>
+                </v-col>
+            </v-row>
+        </v-card>
+
+        <!-- <v-card class="mxauto" flat>
             <v-toolbar>
                 <div class="flex-grow-1"></div>
                 <v-text-field
@@ -27,7 +62,7 @@
                     <v-icon right>mdi-stop</v-icon>
                 </v-btn>
             </v-toolbar>
-        </v-card>
+        </v-card>-->
 
         <div class="mt-2">
             <vue-element-loading :active="loading" spinner="spinner" duration="1.0" />
